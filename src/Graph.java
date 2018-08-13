@@ -79,4 +79,20 @@ public class Graph {
 		printGraph();
 	}
 
+	public Vertex[] getVertices() {
+		return vertices;
+	}
+
+	public void setVertices(Vertex[] vertices) {
+		this.vertices = vertices;
+	}
+
+	public int getVertexNumber() {
+		return vertexNumber;
+	}
+
+	public void setVertexNumber(int vertexNumber) {
+		this.vertexNumber = vertexNumber;
+	}
+	
 }

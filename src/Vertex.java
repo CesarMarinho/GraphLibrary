@@ -6,10 +6,12 @@ public class Vertex {
 	private int numberVertex;
 	private int edgeValue;
 	private ArrayList<Vertex> neighbors;
+	private int fluxoParcial;
 	
 	public Vertex(int numberVertex){
 		this.numberVertex = numberVertex;
 		this.neighbors = new ArrayList<Vertex>();
+		this.fluxoParcial = 0;
 	}
 	
 	public Vertex(String nameVertex, int numberVertex){
@@ -71,6 +73,15 @@ public class Vertex {
 
 	public void setNeighbors(ArrayList<Vertex> neighbors) {
 		this.neighbors = neighbors;
+	}
+
+	
+	public int getFluxoParcial() {
+		return fluxoParcial;
+	}
+
+	public void setFluxoParcial(int fluxoParcial) {
+		this.fluxoParcial = fluxoParcial;
 	}
 
 	@Override

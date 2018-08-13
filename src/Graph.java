@@ -94,5 +94,5 @@ public class Graph {
 	public void setVertexNumber(int vertexNumber) {
 		this.vertexNumber = vertexNumber;
 	}
-	
+		
 }

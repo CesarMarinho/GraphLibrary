@@ -18,6 +18,10 @@ public class Graph {
 		
 	}
 	
+	public Vertex getVertex(int vertexNumber){
+		return vertices[vertexNumber];
+	}
+	
 	public ArrayList<Vertex> getNeigbors(){
 		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
 		for(Vertex v: vertices){
@@ -87,9 +91,13 @@ public class Graph {
 		}	
 	}
 	
-	public void run(String archName){
+	public void runPrint(String archName){
 		readArchive(archName);
 		printGraph();
+	}
+	
+	public void run(String archName) {
+		readArchive(archName);
 	}
 
 	public Vertex[] getVertices() {

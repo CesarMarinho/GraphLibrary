@@ -26,7 +26,37 @@ public class PushRelabel {
 	}
 	
 	public void run(){
+		preflow();
+		Vertex v;
+		int uV, vV;
+		int maxFlow = 0;
+		while(excess[source.getNumberVertex()] > excess[sink.getNumberVertex()]) { //verificar condição deste while
+			for(Vertex u: vertices) {				
+				uV = u.getNumberVertex();
+				for(int i=0; i<u.getNeighbors().size();i++) {
+					v = u.getNeighbors().get(i);
+					vV = v.getNumberVertex();
+					if((excess[uV] > 0) && (u.getEdgeValue(v) > 0) && (height[uV] == height[vV] + 1)) {
+						push(u, v);
+					}
+					if(height[uV] <= height[vV]) {
+						relabel(u,v);
+					}
+				}
+			}
+		}
 		
+		for(int i = 0; i<vertexNumber;i++) {
+			maxFlow += edgesFlux[source.getNumberVertex()][i];
+		}
+		System.out.println(maxFlow);		
+	}
+	
+	public boolean contains(int[] vec){
+		for(int i:vec) {
+			if(vec[i] == 1) return true;
+		}
+		return false;
 	}
 	
 	public void preflow(){
@@ -51,8 +81,9 @@ public class PushRelabel {
 		excess[vV] += difFlow;
 	}
 	
-	public void relabel(Vertex u){
-		
+	public void relabel(Vertex u, Vertex v){
+		height[u.getNumberVertex()] = 1 + height[v.getNumberVertex()];
 	}
+	
 
 }

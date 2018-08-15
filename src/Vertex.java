@@ -47,7 +47,8 @@ public class Vertex {
 				return true;
 		}
 		return false;
-	}	
+	}		
+	
 	
 	//getters and setters
 	public String getNameVertex() {

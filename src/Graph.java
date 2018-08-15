@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Graph {
 	
@@ -15,6 +16,14 @@ public class Graph {
 	
 	public Graph(){
 		
+	}
+	
+	public ArrayList<Vertex> getNeigbors(){
+		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
+		for(Vertex v: vertices){
+			neighbors.addAll(v.getNeighbors());
+		}
+		return neighbors;
 	}
 	
 	private void addVertex(int index, Vertex vertex){

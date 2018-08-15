@@ -42,7 +42,13 @@ public class PushRelabel {
 	}
 	
 	public void push(Vertex u, Vertex v){
-		
+		int uV = u.getNumberVertex(); //uVertex
+		int vV = v.getNumberVertex(); //vVertex
+		int difFlow = Math.min(excess[uV], edgesFlux[uV][vV]);
+		edgesFlux[uV][vV] += difFlow;
+		edgesFlux[vV][uV] -= difFlow;
+		excess[uV] -= difFlow;
+		excess[vV] += difFlow;
 	}
 	
 	public void relabel(Vertex u){

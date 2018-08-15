@@ -26,6 +26,13 @@ public class Vertex {
 		this.neighbors = new ArrayList<Vertex>();
 	}
 	
+	public int getEdgeValue(Vertex u){
+		for(Vertex v: this.neighbors){
+			if(v.getNumberVertex() == u.getNumberVertex()) return v.edgeValue;
+		}
+		return 0;
+	}
+	
 	public void addArch(int numberVertex, int edgeValue){
 		this.neighbors.add(new Vertex(numberVertex, edgeValue));
 	}

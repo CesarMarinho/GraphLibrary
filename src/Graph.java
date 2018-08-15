@@ -26,6 +26,10 @@ public class Graph {
 		return neighbors;
 	}
 	
+	public int getEdgeValue(Vertex u, Vertex v){
+		return u.getEdgeValue(v);
+	}
+	
 	private void addVertex(int index, Vertex vertex){
 		this.vertices[index] = vertex;
 	}

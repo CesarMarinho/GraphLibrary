@@ -33,6 +33,13 @@ public class Vertex {
 		return 0;
 	}
 	
+	public Vertex getNeighbors(int vertexNumber){		
+		for(Vertex u: neighbors){
+			if(u.getNumberVertex() == vertexNumber) return u;
+		}
+		return new Vertex(0);
+	}
+	
 	public void addArch(int numberVertex, int edgeValue){
 		this.neighbors.add(new Vertex(numberVertex, edgeValue));
 	}

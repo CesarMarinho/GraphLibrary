@@ -26,6 +26,7 @@ public class PushRelabel {
 	}
 	
 	public void runA(){
+		System.out.println("hue");
 		preflow();
 		for(Vertex v: vertices) System.out.println(v.getNameVertex());
 		printMe();

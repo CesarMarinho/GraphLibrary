@@ -33,8 +33,9 @@ public class Vertex {
 		return 0;
 	}
 	
-	public Vertex getNeighbors(int vertexNumber){		
-		for(Vertex u: neighbors){
+	public Vertex getNeighbors(int vertexNumber){	
+		//System.out.println("Entrou ake");
+		for(Vertex u: this.neighbors){
 			if(u.getNumberVertex() == vertexNumber) return u;
 		}
 		return new Vertex(0);

@@ -7,7 +7,7 @@ public class Main {
 		String path = "C:/Users/cesar/Documents/projetos/sDizimo/Push-Relabel/GraphTest";
 		Graph g = new Graph();
 		g.run(path);
-		new PushRelabel(g,g.getVertex(0), g.getVertex(5)).runA();;
+		new PushRelabel(g,g.getVertex(0), g.getVertex(5)).runB();;
 	}
 
 }

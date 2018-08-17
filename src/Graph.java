@@ -22,13 +22,14 @@ public class Graph {
 		return vertices[vertexNumber];
 	}
 	
-	public ArrayList<Vertex> getNeigbors(){
-		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
-		for(Vertex v: vertices){
-			neighbors.addAll(v.getNeighbors());
-		}
-		return neighbors;
-	}
+//	public ArrayList<Vertex> getNeigbors(){
+//		System.out.println("Entrou ake");
+//		ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
+//		for(Vertex v: vertices){
+//			neighbors.addAll(v.getNeighbors());
+//		}
+//		return neighbors;
+//	}
 	
 	public int getEdgeValue(Vertex u, Vertex v){
 		return u.getEdgeValue(v);

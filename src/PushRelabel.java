@@ -25,48 +25,37 @@ public class PushRelabel {
 		//edges = graph.getNeigbors();
 		vertices = Arrays.asList(graph.getVertices());
 		queue = new ArrayList<Vertex>();
-	}
+	}	
 	
-	public void runA(){
-		preflow();
-		//for(Vertex v: vertices) System.out.println(v.getNameVertex());
-		printMe();
-		push(vertices.get(1), vertices.get(2));
-		relabel(vertices.get(1), vertices.get(2));
-		printMe();
-		push(vertices.get(2), vertices.get(4));
-		printMe();
-		push(vertices.get(4), vertices.get(5));
-		printMe();
-		for(int i=0;i<vertexNumber;i++){
-			for(int j=0;j<vertexNumber;j++){
-				System.out.print("   "+edgesFlow[i][j]+"   ");
-			}
-			System.out.println("");
-		}
-	}
-	
-	public void runB(){
-		preflow();		
+	public void run(){
+		preflow();	
+		//int kk = 0;
 		
 		while(!queue.isEmpty()){
+			//if(kk == 20) break;
+			//kk++;
 			auxVertex = queue.get(0);
 			if(auxVertex.getNeighbors().isEmpty()){
 				System.out.println("Vertice sem arestas de saída");
 				queue.remove(0);
 				break;
 			}
-			for(Vertex v : auxVertex.getNeighbors()){
+			//for(Vertex v : auxVertex.getNeighbors()){
+			for(int i=0;i<auxVertex.getNeighbors().size();i++){
+				Vertex v = auxVertex.getNeighbors().get(i);
 				System.out.println("Analisando a situação do vértice: " + auxVertex.getNumberVertex());					
 				System.out.println("Para com o vertice: " + v.getNumberVertex());
 				if(pushConditions(auxVertex, vertices.get(v.getNumberVertex()))){
 					System.out.println("deve fzr push entre "+auxVertex.getNumberVertex()+" e "+v.getNumberVertex());
 					push(auxVertex, v);
-					System.out.println("Removendo vértice: "+queue.get(0));
-					queue.remove(0);
+					if(excess[auxVertex.getNumberVertex()] > 0){
+						System.out.println("Removendo vértice: "+queue.get(0));
+						queue.remove(0);
+					}
 				}else{
 					System.out.println("Deve fazer relabel entre " + auxVertex.getNumberVertex() + " e "+v.getNumberVertex());
 					relabel(auxVertex, v);
+					i--;
 				}
 			}
 			printQueue();			
@@ -97,44 +86,15 @@ public class PushRelabel {
 		edgesFlow[vV][uV] -= dif;
 		excess[uV] -= dif;
 		excess[vV] += dif;
-		if(!queue.contains(vertices.get(vV)))queue.add(vertices.get(vV));
+		if(!queue.contains(vertices.get(vV)) && !(vV == sink.getNumberVertex())){
+			queue.add(vertices.get(vV));
+		}else{
+			System.out.println("Não é possível adicionar o vétice "+ vV);
+		}
 		System.out.print("Push realizado de "+u.getNumberVertex() + " para " + v.getNumberVertex());
-		System.out.println("Enviando "+dif+" de fluxo");
+		System.out.println(", enviando "+dif+" de fluxo");
+		System.out.println("Excesso do vértice: " + excess[v.getNumberVertex()]);
 	}	
-	
-	public void run(){
-		preflow();
-		Vertex v;
-		int uV, vV;
-		int maxFlow = 0;		
-		while(excess[source.getNumberVertex()] > excess[sink.getNumberVertex()]) { //verificar condição deste while	
-		//while(contains){
-			for(Vertex u: vertices) {
-				//System.out.println("Entrou no for");
-				if(!(u.equals(source)) || !(u.equals(sink))) 
-				{
-					System.out.println("Entrou no if");
-					uV = u.getNumberVertex();
-					for(int i=0; i<u.getNeighbors().size();i++) {
-						v = u.getNeighbors().get(i);
-						vV = v.getNumberVertex();
-						if((excess[uV] > 0) && (u.getEdgeValue(v) > 0) && (height[uV] == height[vV] + 1)) {
-							push(u, v);
-						}
-						if(height[uV] <= height[vV]) {
-							relabel(u,v);
-						}
-					}
-				}
-				
-			}
-		}
-		
-		for(int i = 0; i<vertexNumber;i++) {
-			maxFlow += edgesFlow[source.getNumberVertex()][i];
-		}
-		System.out.println(maxFlow);		
-	}
 	
 	public boolean contains(int[] vec){
 		for(int i:vec) {
@@ -160,17 +120,6 @@ public class PushRelabel {
 			queue.add(vertices.get(u.getNumberVertex()));
 		}
 	}
-	
-//	public void push(Vertex u, Vertex v){
-//		System.out.println("Entrou no push");
-//		int uV = u.getNumberVertex(); //uVertex
-//		int vV = v.getNumberVertex(); //vVertex
-//		int difFlow = Math.min(excess[uV], edgesFlow[uV][vV]);
-//		edgesFlow[uV][vV] += difFlow;
-//		edgesFlow[vV][uV] -= difFlow;
-//		excess[uV] -= difFlow;
-//		excess[vV] += difFlow;
-//	}
 	
 	public void relabel(Vertex u, Vertex v){
 		height[u.getNumberVertex()] = 1 + height[v.getNumberVertex()];

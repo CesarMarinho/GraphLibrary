@@ -6,6 +6,7 @@ public class PushRelabel {
 	
 	private int[] height;
 	private int[] excess;
+	private ArrayList<Vertex> returnFlow;
 	private int vertexNumber;
 	private int[][] edgesFlow;
 	private Vertex source;
@@ -14,8 +15,10 @@ public class PushRelabel {
 	private List<Vertex> vertices;
 	private ArrayList<Vertex> queue;
 	private Vertex auxVertex;
+	private Graph graph;
 	
 	public PushRelabel(Graph graph, Vertex source, Vertex sink){
+		this.graph = graph;
 		vertexNumber = graph.getVertexNumber();
 		height = new int[vertexNumber];
 		excess = new int[vertexNumber];
@@ -25,22 +28,21 @@ public class PushRelabel {
 		//edges = graph.getNeigbors();
 		vertices = Arrays.asList(graph.getVertices());
 		queue = new ArrayList<Vertex>();
+		returnFlow = new ArrayList<Vertex>();
 	}	
 	
 	public void run(){
-		preflow();	
-		//int kk = 0;
 		
-		while(!queue.isEmpty()){
-			//if(kk == 20) break;
-			//kk++;
+		preflow();			
+		
+		while(!queue.isEmpty()){			
 			auxVertex = queue.get(0);
 			if(auxVertex.getNeighbors().isEmpty()){
 				System.out.println("Vertice sem arestas de saída");
 				queue.remove(0);
 				break;
 			}
-			//for(Vertex v : auxVertex.getNeighbors()){
+			
 			for(int i=0;i<auxVertex.getNeighbors().size();i++){
 				Vertex v = auxVertex.getNeighbors().get(i);
 				System.out.println("Analisando a situação do vértice: " + auxVertex.getNumberVertex());					
@@ -58,9 +60,17 @@ public class PushRelabel {
 					i--;
 				}
 			}
+			if(auxVertex.getNumberVertex() != sink.getNumberVertex()){
+				//discharge(auxVertex);
+			}			
 			printQueue();			
 		}
-		printMe();		
+		printMe();	
+		int sum = 0;
+		for(int i=0;i<vertexNumber;i++){
+			sum += edgesFlow[source.getNumberVertex()][i];
+		}
+		System.out.println("Fluxo Máximo: "+sum);
 	}
 	
 	private void printQueue(){
@@ -73,7 +83,7 @@ public class PushRelabel {
 	private boolean pushConditions(Vertex u, Vertex v){
 		if(height[u.getNumberVertex()] == height[v.getNumberVertex()] + 1) return true;
 		return false;
-	}
+	}	
 	
 	public void push(Vertex u, Vertex v){		
 		int uV, vV;
@@ -101,6 +111,21 @@ public class PushRelabel {
 			if(vec[i] == 1) return true;
 		}
 		return false;
+	}
+	
+	public void discharge(Vertex v){
+		if(excess[v.getNumberVertex()] == 0) return;
+		ArrayList<Vertex> vPredecessors = this.graph.getPredecessors(v.getNumberVertex());		
+		
+		while(!returnFlow.isEmpty()){
+			Vertex auxVertex = returnFlow.get(0);
+			for(Vertex u: vPredecessors){
+				relabel(v, u);
+				push(u,v);
+				queue.remove(queue.size()-1);
+			}
+			returnFlow.remove(0);			
+		}
 	}
 	
 	public void preflow(){
